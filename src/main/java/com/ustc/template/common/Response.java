@@ -1,6 +1,7 @@
 package com.ustc.template.common;
 
-import com.google.gson.Gson;
+import com.alibaba.fastjson.JSON;
+import com.ustc.template.constant.ResponseStatus;
 import lombok.Data;
 
 import java.util.Date;
@@ -9,22 +10,27 @@ import java.util.Date;
 public class Response {
     private int code;
     private String message;
-    private Date date;
     private Object data;
 
-    public static String ok(){
+    public static String ok() {
         Response response = new Response();
         response.code = 0;
         response.message = "success";
-        response.date = new Date();
-        return new Gson().toJson(response);
+        return JSON.toJSONString(response);
     }
 
-    public static String ok(Object data){
+    public static String ok(Object data) {
         Response response = new Response();
         response.code = 0;
         response.message = "success";
-        response.date = new Date();
-        return new Gson().toJson(response);
+        response.data = data;
+        return JSON.toJSONString(response);
+    }
+
+    public static Object error(int code, String message) {
+        Response response = new Response();
+        response.code = code;
+        response.message = message;
+        return response;
     }
 }
